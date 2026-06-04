@@ -15,32 +15,41 @@
 class Kobol < Formula
   desc "A modern COBOL-inspired language for the JVM (native compiler)"
   homepage "https://github.com/kobol-lang/kobol"
-  version "0.1.2"
+  version "0.1.3"
   license "Apache-2.0"
 
   on_macos do
     # Apple Silicon only. Intel Macs: use the fat JAR (any JVM 21+).
     on_arm do
       url "https://github.com/kobol-lang/kobol/releases/download/v#{version}/kobol-macos-arm64.tar.gz"
-      sha256 "265bb5a091d3c1a81e23f52dd15184dccab75409ff8690c838f94272ec3a5118"
+      sha256 "cc8bfe28d8e801e37587eaf77ffbabd549424cd3c477f3b7c12e6b8fd07a7db0"
     end
   end
 
   on_linux do
     on_arm do
       url "https://github.com/kobol-lang/kobol/releases/download/v#{version}/kobol-linux-aarch64.tar.gz"
-      sha256 "88dcff79e0f6268f4acfd9a1c124cae2a780182fac42f7b24c87e6d599fd66ff"
+      sha256 "c5cb15b9dc22ab5f8e7518cff1b73934ab823371c1a7a82865339767eafa9556"
     end
 
     on_intel do
       url "https://github.com/kobol-lang/kobol/releases/download/v#{version}/kobol-linux-x86_64.tar.gz"
-      sha256 "4a351129c0535109d744f76623b0271a239f9a8cbb45c2ef1025de3422a2154d"
+      sha256 "3fce76249ecaf319203115109a6c6797a558516bad7e46cebe8bb17ee4575ef7"
     end
   end
 
   def install
-    bin.install "kobol"
+    # The native binary spawns a child `java` to run compiled programs; that JVM
+    # needs lib/kobolc.jar (runtime + stdlib). KobolHome resolves it relative to the
+    # (canonicalized) executable path, so keep the binary and lib/ together under
+    # libexec and expose the binary via a symlink in bin.
+    libexec.install "kobol"
+    libexec.install "lib"
+    bin.install_symlink libexec / "kobol"
   end
+
+  # Compiled Kobol programs run on a JVM; Java 21+ must be available at run time.
+  depends_on "openjdk@21" => :recommended
 
   def caveats
     <<~EOS
