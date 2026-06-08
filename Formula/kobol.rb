@@ -15,26 +15,26 @@
 class Kobol < Formula
   desc "A modern COBOL-inspired language for the JVM (native compiler)"
   homepage "https://github.com/kobol-lang/kobol"
-  version "0.1.3"
+  version "0.1.4"
   license "Apache-2.0"
 
   on_macos do
     # Apple Silicon only. Intel Macs: use the fat JAR (any JVM 21+).
     on_arm do
       url "https://github.com/kobol-lang/kobol/releases/download/v#{version}/kobol-macos-arm64.tar.gz"
-      sha256 "cc8bfe28d8e801e37587eaf77ffbabd549424cd3c477f3b7c12e6b8fd07a7db0"
+      sha256 "9acb9c229eca335d0fa129e5f94bf1be4952dba815366ef48dcf6e9acdab9a8a"
     end
   end
 
   on_linux do
     on_arm do
       url "https://github.com/kobol-lang/kobol/releases/download/v#{version}/kobol-linux-aarch64.tar.gz"
-      sha256 "c5cb15b9dc22ab5f8e7518cff1b73934ab823371c1a7a82865339767eafa9556"
+      sha256 "e0b8b019561b1891724ccde8c40c94e88014f1f5f56ed670e95d3308c0edc3a2"
     end
 
     on_intel do
       url "https://github.com/kobol-lang/kobol/releases/download/v#{version}/kobol-linux-x86_64.tar.gz"
-      sha256 "3fce76249ecaf319203115109a6c6797a558516bad7e46cebe8bb17ee4575ef7"
+      sha256 "ca8624b289bba2439b2fa79593815c30206b3223aa78f149305c6429f755bae5"
     end
   end
 
